@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Campagne index{% endblock %}
+
+{% block body %}
+    <h1 class="text-center text-blue-600 text-4xl">Campagne index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Contenu</th>
+                <th>Objectif</th>
+                <th>Nom</th>
+                <th>Cree_a</th>
+                <th>Mise_a_jour</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for campagne in campagnes %}
+            <tr>
+                <td>{{ campagne.id }}</td>
+                <td>{{ campagne.titre }}</td>
+                <td>{{ campagne.contenu }}</td>
+                <td>{{ campagne.objectif }}</td>
+                <td>{{ campagne.nom }}</td>
+                <td>{{ campagne.getCreeA()|date('Y-m-d H:i:s')   }}</td>
+                {# <td>{{ campagne.creeA ? campagne.creeA|(date('Y-m-d H:i:s') ) : '' }}</td> #}
+                {# <td>{{ campagne.miseAJour ? campagne.miseAJour|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>{{  campagne.getMiseAJour()|date('Y-m-d H:i:s') }}</td>
+              
+                <td>
+            
+                    <a href="{{ path('app_campagne_show',{'id': campagne.id}) }}">show</a>
+                    <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}">edit</a>
+                   
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_campagne_new') }}">Create new</a>
+{% endblock %}

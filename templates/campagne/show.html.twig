@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Campagne{% endblock %}
+
+{% block body %}
+    <h1>Campagne</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ campagne.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ campagne.titre }}</td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ campagne.contenu }}</td>
+            </tr>
+            <tr>
+                <th>Objectif</th>
+                <td>{{ campagne.objectif }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ campagne.nom }}</td>
+            </tr>
+            <tr>
+                <th>Cree_a</th>
+                {# <td>{{ campagne.creeA ? campagne.creeA|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>{{  campagne.getCreeA()|date('Y-m-d H:i:s')  }}</td>
+            </tr>
+            <tr>
+                <th>Mise_a_jour</th>
+                {# <td>{{ campagne.miseAJour ? campagne.miseAJour|date('Y-m-d H:i:s') : '' }}</td> #}
+                <td>{{campagne.getMiseAJour()|date('Y-m-d H:i:s')  }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_campagne_index') }}">back to list</a>
+
+    <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}">edit</a>
+
+    {{ include('campagne/_delete_form.html.twig') }}
+{% endblock %}
