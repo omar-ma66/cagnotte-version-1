@@ -46,6 +46,8 @@ final class CampagneController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/{id}', name: 'app_campagne_show', methods: ['GET'])]
     public function show(Campagne $campagne): Response
     {
