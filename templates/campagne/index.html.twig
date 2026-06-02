@@ -26,10 +26,12 @@
                 <td>{{ campagne.contenu }}</td>
                 <td>{{ campagne.objectif }}</td>
                 <td>{{ campagne.nom }}</td>
-                <td>{{ campagne.getCreeA()|date('Y-m-d H:i:s')   }}</td>
+                {# <td>{{ campagne.getCreeA()|date('Y-m-d H:i:s')   }}</td> #}
                 {# <td>{{ campagne.creeA ? campagne.creeA|(date('Y-m-d H:i:s') ) : '' }}</td> #}
                 {# <td>{{ campagne.miseAJour ? campagne.miseAJour|date('Y-m-d H:i:s') : '' }}</td> #}
-                <td>{{  campagne.getMiseAJour()|date('Y-m-d H:i:s') }}</td>
+                {# <td>{{  campagne.getMiseAJour()|date('Y-m-d H:i:s') }}</td> #}
+                <td>{{ campagne.getCreeA() and campagne.getCreeA()|date('Y-m-d H:i:s') != date()|date('Y-m-d H:i:s') ? campagne.getCreeA()|date('Y-m-d H:i:s') : 'Non définie' }}</td>
+                <td>{{ campagne.getMiseAJour() ? campagne.getMiseAJour()|date('Y-m-d H:i:s') : 'Non définie' }}</td>
               
                 <td>
             

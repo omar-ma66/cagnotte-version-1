@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Campagne;
 use App\Form\CampagneType;
 use App\Repository\CampagneRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,8 @@ final class CampagneController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $campagne->setId();
+            $campagne->setCreeA( new DateTimeImmutable());
+            $campagne->setMiseAJour( new DateTimeImmutable());
             $entityManager->persist($campagne);
             $entityManager->flush();
 
@@ -58,6 +61,7 @@ final class CampagneController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $campagne->setMiseAJour( new DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_campagne_index', [], Response::HTTP_SEE_OTHER);
