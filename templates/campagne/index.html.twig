@@ -3,50 +3,84 @@
 {% block title %}Campagne index{% endblock %}
 
 {% block body %}
-    <h1 class="text-center text-blue-600 text-4xl">Campagne index</h1>
+<div class="max-w-7xl mx-auto px-4 py-8">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>Objectif</th>
-                <th>Nom</th>
-                <th>Cree_a</th>
-                <th>Mise_a_jour</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for campagne in campagnes %}
-            <tr>
-                <td>{{ campagne.id }}</td>
-                <td>{{ campagne.titre }}</td>
-                <td>{{ campagne.contenu }}</td>
-                <td>{{ campagne.objectif }}</td>
-                <td>{{ campagne.nom }}</td>
-                {# <td>{{ campagne.getCreeA()|date('Y-m-d H:i:s')   }}</td> #}
-                {# <td>{{ campagne.creeA ? campagne.creeA|(date('Y-m-d H:i:s') ) : '' }}</td> #}
-                {# <td>{{ campagne.miseAJour ? campagne.miseAJour|date('Y-m-d H:i:s') : '' }}</td> #}
-                {# <td>{{  campagne.getMiseAJour()|date('Y-m-d H:i:s') }}</td> #}
-                <td>{{ campagne.getCreeA() and campagne.getCreeA()|date('Y-m-d H:i:s') != date()|date('Y-m-d H:i:s') ? campagne.getCreeA()|date('Y-m-d H:i:s') : 'Non définie' }}</td>
-                <td>{{ campagne.getMiseAJour() ? campagne.getMiseAJour()|date('Y-m-d H:i:s') : 'Non définie' }}</td>
-              
-                <td>
-            
-                    <a href="{{ path('app_campagne_show',{'id': campagne.id}) }}">show</a>
-                    <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}">edit</a>
-                   
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Campagnes de financement</h1>
+            <p class="text-sm text-gray-500 mt-1">Gérez et suivez l'ensemble des cagnottes actives.</p>
+        </div>
+        <a href="{{ path('app_campagne_new') }}" class="inline-flex items-center bg-teal-600 hover:bg-teal-700 text-white text-sm font-semibold px-4 py-2.5 rounded shadow transition-colors uppercase tracking-wider">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"></path>
+            </svg>
+            Créer une campagne
+        </a>
+    </div>
 
-    <a href="{{ path('app_campagne_new') }}">Create new</a>
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase tracking-wider text-gray-500">
+                        <th class="px-6 py-4">ID</th>
+                        <th class="px-6 py-4">Titre</th>
+                        <th class="px-6 py-4">Contenu</th>
+                        <th class="px-6 py-4">Objectif</th>
+                        <th class="px-6 py-4">Créateur</th>
+                        {# <th class="px-6 py-4">Créée le</th>
+                        <th class="px-6 py-4">Mise à jour</th> #}
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100 text-sm text-gray-600">
+                {% for campagne in campagnes %}
+                    <tr class="hover:bg-gray-50/70 transition-colors">
+                        <td class="px-6 py-4 font-mono text-xs text-gray-400" title="{{ campagne.id }}">
+                            {{ campagne.id|slice(0, 8) }}...
+                        </td>
+                        
+                        <td class="px-6 py-4 font-semibold text-gray-900">
+                            {{ campagne.titre }}
+                        </td>
+                        
+                        <td class="px-6 py-4 max-w-xs truncate text-gray-500">
+                            {{ campagne.contenu }}
+                        </td>
+                        
+                        <td class="px-6 py-4 font-bold text-teal-600 whitespace-nowrap">
+                            {{ campagne.objectif }} €
+                        </td>
+                        
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ campagne.nom }}
+                        </td>
+
+                        
+                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm font-medium space-x-2">
+                            <a href="{{ path('app_campagne_show', {'id': campagne.id}) }}" class="inline-flex items-center text-teal-600 hover:text-teal-700 hover:underline transition-colors">
+                                Voir
+                            </a>
+                            <span class="text-gray-300">|</span>
+                            <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}" class="inline-flex items-center text-pink-500 hover:text-pink-600 hover:underline transition-colors">
+                                Modifier
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8" class="px-6 py-12 text-center text-gray-400 bg-gray-50/30">
+                            <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 13.5h3.86a2.25 2.25 0 0 1 2.008 1.24l.885 1.77a2.25 2.25 0 0 0 2.007 1.24h1.98a2.25 2.25 0 0 0 2.007-1.24l.885-1.77a2.25 2.25 0 0 1 2.007-1.24h3.86m-18 0h18a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v4.5A2.25 2.25 0 0 0 2.25 13.5Z"></path>
+                            </svg>
+                            <span class="text-base font-medium">Aucune campagne trouvée</span>
+                            <p class="text-xs text-gray-400 mt-1">Commencez par ajouter votre toute première cagnotte.</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 {% endblock %}

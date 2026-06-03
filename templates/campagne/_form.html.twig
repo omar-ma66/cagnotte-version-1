@@ -1,11 +1,16 @@
- {{ form_start(form) }}
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Campagne{% endblock %}
+
+
+ {# {{ form_start(form) }}
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }} 
+{{ form_end(form) }}  #}
 
+{%  block body %}
 
-{# 
-<form method="post">
+{{ form_start(form) }}
 
             {{ form_row(form.titre) }}
             {{ form_row(form.contenu) }}
@@ -13,4 +18,6 @@
             {{ form_row(form.nom) }}
 
 <button type="submit" class"btn">{{ button_label|default('Save') }} </button>
-</form>  #}
+{{ form_end(form)}}
+
+{% endblock %}

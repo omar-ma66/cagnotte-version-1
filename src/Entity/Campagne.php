@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Uid\Uuid;
 use App\Repository\CampagneRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -44,7 +45,8 @@ class Campagne
 
     public function __construct()
     {
-        $this->participants = new ArrayCollection();
+        $this->participants = new ArrayCollection(); 
+         $this->id = Uuid::v7();
     }
 
     public function getId(): ?string
@@ -55,7 +57,7 @@ class Campagne
     public function setId():static
     {
 
-        $this->id = md5(random_bytes(50));
+      
         return $this ;
     }
 

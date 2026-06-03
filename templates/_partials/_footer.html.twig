@@ -1,23 +1,48 @@
- <footer class="page-footer teal">
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Cagnot'Potes</h5>
-                    <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo.</p>
-                </div>
-                <div class="col l3 s12 offset-l3">
-                    <h5 class="white-text">Liens</h5>
-                    <ul class="footer-links">
-                        <li><a class="white-text" href="#!">Comment ça marche ?</a></li>
-                        <li><a class="white-text" href="#!">Voir les campagnes</a></li>
-                        <li><a class="white-text" href="#!">Créer une campagne</a></li>
+
+<footer class="bg-teal-600 text-white mt-auto">
+    <div class="max-w-7xl mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="md:col-span-2">
+                <h5 class="text-xl font-bold tracking-wide mb-4">Cagnot'Potes</h5>
+                <p class="text-teal-100 text-sm leading-relaxed max-w-xl">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. 
+                    Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:items-end">
+                <div class="w-full md:w-auto">
+                    <h5 class="text-xl font-bold tracking-wide mb-4">Liens utiles</h5>
+                    <ul class="space-y-2.5 text-sm">
+                        <li>
+                            <a class="text-teal-100 hover:text-white hover:underline transition-colors" href="#!">
+                                Comment ça marche ?
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-teal-100 hover:text-white hover:underline transition-colors" href="{{ path('app_campagne_index') }}">
+                                Voir les campagnes
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-teal-100 hover:text-white hover:underline transition-colors" href="{{ path('app_campagne_new') }}">
+                                Créer une campagne
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
+
         </div>
-        <div class="footer-copyright">
-            <div class="container">
-                Made with love by <a class="white-text" href="http://trombi.simplon-roanne.com/">Simplon Roanne</a>
-            </div>
+    </div>
+
+    <div class="bg-teal-700 py-4 border-t border-teal-500/20 text-xs text-teal-100 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            Made with love by 
+            <a class="font-medium text-white hover:underline ml-1" href="http://trombi.simplon-roanne.com/" target="_blank" rel="noopener noreferrer">
+                Simplon Roanne
+            </a>
         </div>
-    </footer>
+    </div>
+</footer>

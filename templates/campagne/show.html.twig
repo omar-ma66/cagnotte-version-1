@@ -44,5 +44,10 @@
 
     <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}">edit</a>
 
+    {# Dans templates/campagne/show.html.twig
+<a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="btn bg-pink-500 text-white font-bold py-2 px-4 rounded">
+    Participer à cette campagne
+</a> #}
+
     {{ include('campagne/_delete_form.html.twig') }}
 {% endblock %}

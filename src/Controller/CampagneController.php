@@ -12,9 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+
+
+
+
+
 #[Route('/campagne')]
 final class CampagneController extends AbstractController
 {
+
+
+
     #[Route(name: 'app_campagne_index', methods: ['GET'])]
     public function index(CampagneRepository $campagneRepository): Response
     {
@@ -26,12 +34,13 @@ final class CampagneController extends AbstractController
     #[Route('/new', name: 'app_campagne_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $campagne = new Campagne();
+        $campagne = new Campagne(); 
+     
         $form = $this->createForm(CampagneType::class, $campagne);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $campagne->setId();
+           
             $campagne->setCreeA( new DateTimeImmutable());
             $campagne->setMiseAJour( new DateTimeImmutable());
             $entityManager->persist($campagne);
