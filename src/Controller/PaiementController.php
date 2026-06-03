@@ -8,6 +8,7 @@ use App\Entity\Paiement;
 use App\Entity\Participants;
 use App\Form\PaiementType;
 use App\Repository\PaiementRepository;
+use App\Repository\CampagneRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,6 +30,7 @@ final class PaiementController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $paiement = new Paiement();
+        $campagne = new Campagne();
         $form = $this->createForm(PaiementType::class, $paiement);
         $form->handleRequest($request);
 
@@ -45,6 +47,7 @@ final class PaiementController extends AbstractController
         return $this->render('paiement/new.html.twig', [
             'paiement' => $paiement,
             'form' => $form,
+         
         ]);
     }
 
