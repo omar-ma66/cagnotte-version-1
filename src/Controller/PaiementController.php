@@ -27,10 +27,18 @@ final class PaiementController extends AbstractController
     }
 
     #[Route('/new', name: 'app_paiement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager,CampagneRepository $campagneRepository): Response
     {
         $paiement = new Paiement();
-        $campagne = new Campagne();
+        $id = $request->query->get('id');
+        if($id){
+            $campagne = $campagneRepository->find($id);
+            if($campagne)
+                {
+                    $paiement->setCampagne($campagne);
+                }
+        }
+        
         $form = $this->createForm(PaiementType::class, $paiement);
         $form->handleRequest($request);
 
@@ -38,6 +46,16 @@ final class PaiementController extends AbstractController
              $now = new \DateTimeImmutable();
              $paiement->setCreeA($now);
             $paiement->setMiseAJour($now);
+             $campagne =   $paiement->getCampagne();
+             $participant = $paiement->getParticipant();
+             if ( $participant)
+                {
+                    $participant->setCreeA($now);
+                    $participant->setMiseAJour($now);
+                    if (method_exists($participant,'setCampagne')){
+                        $participant->setCampagne($campagne);
+                    }
+                }
             $entityManager->persist($paiement);
             $entityManager->flush();
 
@@ -47,6 +65,8 @@ final class PaiementController extends AbstractController
         return $this->render('paiement/new.html.twig', [
             'paiement' => $paiement,
             'form' => $form,
+            'campagne'=> $id,
+            // 'campagne' => $campagneRepository->findAll()
          
         ]);
     }

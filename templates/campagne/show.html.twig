@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}Campagne{% endblock %}
 
@@ -29,12 +29,12 @@
             </tr>
             <tr>
                 <th>Cree_a</th>
-                {# <td>{{ campagne.creeA ? campagne.creeA|date('Y-m-d H:i:s') : '' }}</td> #}
+               
                 <td>{{  campagne.getCreeA()|date('Y-m-d H:i:s')  }}</td>
             </tr>
             <tr>
                 <th>Mise_a_jour</th>
-                {# <td>{{ campagne.miseAJour ? campagne.miseAJour|date('Y-m-d H:i:s') : '' }}</td> #}
+               
                 <td>{{campagne.getMiseAJour()|date('Y-m-d H:i:s')  }}</td>
             </tr>
         </tbody>
@@ -44,10 +44,95 @@
 
     <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}">edit</a>
 
-    {# Dans templates/campagne/show.html.twig
+   
 <a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="btn bg-pink-500 text-white font-bold py-2 px-4 rounded">
     Participer à cette campagne
-</a> #}
+</a> 
 
     {{ include('campagne/_delete_form.html.twig') }}
+{% endblock %}
+ #}
+
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la Campagne{% endblock %}
+
+{% block body %}
+<div class="max-w-3xl mx-auto px-4 py-8">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 mb-8 border-b border-gray-200">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ campagne.titre }}</h1>
+            <p class="mt-2 text-sm text-gray-500">Créé par <span class="font-medium text-gray-700">{{ campagne.nom }}</span></p>
+        </div>
+        <div class="mt-4 sm:mt-0">
+            <a href="{{ path('app_campagne_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+                ← Retour à la liste
+            </a>
+        </div>
+    </div>
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200 mb-8">
+        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-950">Informations de la cagnotte</h3>
+            <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800 font-mono">
+                ID: #{{ campagne.id }}
+            </span>
+        </div>
+        
+        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+            <dl class="sm:divide-y sm:divide-gray-200">
+                
+                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-teal-50/30">
+                    <dt class="text-sm font-semibold text-gray-600 self-center">Objectif à atteindre</dt>
+                    <dd class="mt-1 text-sm font-extrabold text-teal-600 sm:mt-0 sm:col-span-2 text-xl">
+                        {{ campagne.objectif ? campagne.objectif|number_format(0, ',', ' ') : '0' }} €
+                    </dd>
+                </div>
+
+                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-semibold text-gray-600">Description du projet</dt>
+                    <dd class="mt-1 text-sm text-gray-700 sm:mt-0 sm:col-span-2 whitespace-pre-line leading-relaxed">
+                        {{ campagne.contenu }}
+                    </dd>
+                </div>
+
+                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-semibold text-gray-600">Date de lancement</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ campagne.getCreeA() ? campagne.getCreeA()|date('d/m/Y à H:i') : 'Non renseignée' }}
+                    </dd>
+                </div>
+
+                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-semibold text-gray-600">Dernière mise à jour</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                        {{ campagne.getMiseAJour() ? campagne.getMiseAJour()|date('d/m/Y à H:i') : 'Aucune modification' }}
+                    </dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-gray-200">
+        
+        <div class="flex items-center gap-3 order-2 sm:order-1">
+            <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+                Modifier
+            </a>
+            <div class="inline-flex justify-center">
+                {{ include('campagne/_delete_form.html.twig') }}
+            </div>
+        </div>
+
+        <div class="order-1 sm:order-2 w-full sm:w-auto">
+            <a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-md text-base font-bold text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transform hover:-translate-y-0.5 transition-all duration-150">
+                💖 Participer à cette campagne
+            </a>
+        </div>
+        
+    </div>
+</div>
 {% endblock %}

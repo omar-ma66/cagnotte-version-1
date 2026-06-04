@@ -25,6 +25,12 @@ class Paiement
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Participants $participant = null;
 
+   
+    #[ORM\ManyToOne(targetEntity: Campagne::class)]
+
+    #[ORM\JoinColumn(nullable: false)] 
+    private ?Campagne $campagne = null ;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,18 @@ class Paiement
     {
         $this->participant = $participant;
 
+        return $this;
+    }
+
+   
+    public function getCampagne(): ?Campagne
+    {
+        return $this->campagne;
+    }
+
+    public function setCampagne(?Campagne $campagne): static
+    {
+        $this->campagne = $campagne;
         return $this;
     }
 }

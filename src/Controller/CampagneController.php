@@ -41,8 +41,8 @@ final class CampagneController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
            
-            $campagne->setCreeA( new DateTimeImmutable());
-            $campagne->setMiseAJour( new DateTimeImmutable());
+            $campagne->setCreeA( new \DateTimeImmutable());
+            $campagne->setMiseAJour( new \DateTimeImmutable());
             $entityManager->persist($campagne);
             $entityManager->flush();
 
@@ -55,7 +55,7 @@ final class CampagneController extends AbstractController
         ]);
     }
 
-
+#################################################################################################################
 
     #[Route('/{id}', name: 'app_campagne_show', methods: ['GET'])]
     public function show(Campagne $campagne): Response
@@ -64,6 +64,7 @@ final class CampagneController extends AbstractController
             'campagne' => $campagne,
         ]);
     }
+#################################################################################################################
 
     #[Route('/{id}/edit', name: 'app_campagne_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Campagne $campagne, EntityManagerInterface $entityManager): Response
@@ -72,7 +73,7 @@ final class CampagneController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $campagne->setMiseAJour( new DateTimeImmutable());
+            $campagne->setMiseAJour( new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_campagne_index', [], Response::HTTP_SEE_OTHER);

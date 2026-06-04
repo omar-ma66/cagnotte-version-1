@@ -5,6 +5,9 @@ namespace App\Form;
  use App\Entity\Paiement;
  use App\Entity\Participants;
  use App\Entity\Campagne;
+
+use App\Repository\CampagneRepository;
+
  use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
  use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,27 +39,27 @@ class PaiementType extends AbstractType
             ])
             
             // 2. Champ Date de Création
-            ->add('cree_a', DateTimeType::class, [
-                'widget' => 'single_text',
-                'label' => 'Date de création',
-                'label_attr' => ['class' => 'block text-sm font-semibold text-gray-700 mb-1'],
-                'attr' => ['class' => $inputStyle]
-            ])
+            // ->add('cree_a', DateTimeType::class, [
+            //      'widget' => 'single_text',
+            //     'label' => 'Date de création',
+            //     'label_attr' => ['class' => 'block text-sm font-semibold text-gray-700 mb-1'],
+            //     'attr' => ['class' => $inputStyle]
+            // ])
             
             // 3. Champ Date de Mise à jour
-            ->add('mise_a_jour', DateTimeType::class, [
-                'widget' => 'single_text',
-                'label' => 'Dernière mise à jour',
-                'label_attr' => ['class' => 'block text-sm font-semibold text-gray-700 mb-1'],
-                'attr' => ['class' => $inputStyle]
-            ])
+            // ->add('mise_a_jour', DateTimeType::class, [
+            //      'widget' => 'single_text',
+            //     'label' => 'Dernière mise à jour',
+            //     'label_attr' => ['class' => 'block text-sm font-semibold text-gray-700 mb-1'],
+            //     'attr' => ['class' => $inputStyle]
+            // ])
             
             // 4. Sous-formulaire Participant (Imbriqué)
             ->add('participant', ParticipantsType::class, [
                 'label' => false,
-                // On peut ajouter une classe globale autour du sous-formulaire si nécessaire
                 'row_attr' => ['class' => 'mt-4 border-t border-gray-100 pt-4']
             ])
+       
             // ->add('campagne', EntityType::class, [
             //     'class' => Campagne::class,
             //     'choice_label' => 'titre', // Affiche le titre de la campagne dans la liste déroulante
@@ -66,5 +69,12 @@ class PaiementType extends AbstractType
             //     'placeholder' => 'Choisir une campagne...', // Option vide par défaut
             // ])
         ;
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Paiement::class,
+        ]);
     }
 }
