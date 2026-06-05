@@ -6,7 +6,8 @@
 
 {% block body %}
 {{  include("_partials/_nav_barre.html.twig") }}
-<div>
+{# <div>
+              
                 <p> Liste des participants {{ participants |length}}  </p>
 
                         {% for paticipant in participants %}
@@ -35,10 +36,86 @@
           <p> {{  pourcentage }} %  realisé</p>
           <p> Nombre de participants {{ participants }} </p>
 
-          {# {% set pourcentage =   "w-" ~ pourcentage ~ "/100" %} #}
+        
           <p> {% set  pourcentage = pourcentage ~'%' %} </p>
+</div> #}
+{# ############################################################################################################################ #}
+
+<div class="max-w-2xl mx-auto my-6 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 font-sans text-gray-800">
+    
+    {# --- SECTION DES CALCULS DISCRETS --- #}
+    {% set nombre_paiements = paiements|length %}
+    {% set somme = 0 %}
+    {% for paiement in paiements %}
+        {% set somme = somme + paiement.montant %}
+    {% endfor %}
+
+    {# Calcul de base #}
+    {% set pourcentage = campagne.objectif > 0 ? (100 * somme / campagne.objectif) : 0 %}
+    
+    {# Conservation de ta variable demandée (valeur brute) #}
+    {% set pourcentagecalcul = pourcentage %}
+    
+    {# Sécurité pour l'affichage textuel et la jauge #}
+    {% set pourcentage_affichage = pourcentagecalcul|number_format(1, ',', ' ') %}
+    {% set pourcentage_barre = pourcentage > 100 ? 100 : pourcentage %}
+
+    {# 1. EN-TÊTE : STATS RAPIDES #}
+    <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Objectif</p>
+            <p class="text-xl font-black text-gray-900 mt-0.5">{{ campagne.objectif|number_format(0, ',', ' ') }} €</p>
+        </div>
+        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+            <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Récolté</p>
+            <p class="text-xl font-black text-emerald-900 mt-0.5">{{ somme|number_format(0, ',', ' ') }} €</p>
+        </div>
+    </div>
+
+    {# 2. BARRE DE PROGRESSION DYNAMIQUE #}
+    <div class="mb-6 space-y-2">
+        <div class="flex justify-between items-center text-sm">
+            <span class="font-medium text-gray-500">Progression</span>
+            <span class="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
+                {{ pourcentage_affichage }} % réalisé
+            </span>
+        </div>
+        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-200">
+            {# La jauge utilise pourcentage_barre (qui ne dépasse jamais 100%) #}
+            <div style="width: {{ pourcentage_barre }}% !important;" 
+                 class="h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out">
+            </div>
+        </div>
+    </div>
+
+    {# 3. BLOC INFOS COMPLÉMENTAIRES #}
+    <div class="text-xs text-gray-500 flex justify-between border-t border-b border-gray-100 py-3 mb-6">
+        <p>👥 Nombre de participants : <span class="font-bold text-gray-800">{{ participants|length }}</span></p>
+        <p>💳 Nombre de paiements : <span class="font-bold text-gray-800">{{ nombre_paiements }}</span></p>
+    </div>
+
+    {# 4. LISTE DES PARTICIPANTS #}
+    <div>
+        <h4 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-1.5">
+            <span>👋</span> Liste des participants ({{ participants|length }})
+        </h4>
+        <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
+            {% for paticipant in participants %}
+                <div class="p-3 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border border-gray-100">
+                    <span class="text-sm font-semibold text-gray-900">{{ paticipant.nom }}</span>
+                    <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paticipant.email }}</span>
+                </div>
+            {% else %}
+                <p class="text-sm text-gray-400 italic text-center py-4">Aucun participant pour le moment.</p>
+            {% endfor %}
+        </div>
+    </div>
+
 </div>
 
+
+
+{#################################################################################################################################}
 <div class="max-w-3xl mx-auto px-4 py-8">
     
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 mb-8 border-b border-gray-200">
@@ -62,9 +139,9 @@
         </div>
         
         {############################       barre de progression     ################################}
-                <div class="h-2.5 bg-green-100 border-gray-500 border-1 rounded-2xl">
+                {# <div class="h-2.5 bg-green-100 border-gray-500 border-1 rounded-2xl">
                 <div   style="width: {{ pourcentage  }};"   class="h-2.5  bg-green-400 rounded-2xl"></div>
-                 </div>
+                 </div> #}
         {############################################################################################}
         <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
             <dl class="sm:divide-y sm:divide-gray-200">
@@ -116,6 +193,8 @@
             <a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-md text-base font-bold text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transform hover:-translate-y-0.5 transition-all duration-150">
                 💖 Participer à cette campagne
             </a>
+         {% else %}
+               💖 Un grand merci a vous tous cette campagne est terminer 💖  
         {% endif %}    
         </div>
         
