@@ -111,10 +111,13 @@
             <span>👋</span> Liste des participants ({{ participants|length }})
         </h4>
         <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
-            {% for paticipant in participants %}
+            {# {% for paticipant in participants %}  originale #} 
+            {% for paiement in paiements %}  
                 <div class="p-3 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border border-gray-100">
-                    <span class="text-sm font-semibold text-gray-900">{{ paticipant.nom }} : </span>
-                    <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paticipant.email }}</span>
+                    {# <span class="text-sm font-semibold text-gray-900">{{ paticipant.nom }} : </span> original #}
+                    <span class="text-sm font-semibold text-gray-900">{{ paiement.participant.nom }} : {{ paiement.montant }} € </span>
+                    <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paiement.participant.email }}</span>
+                    {# <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paticipant.email }}</span>  originale #}
                 </div>
             {% else %}
                 <p class="text-sm text-gray-400 italic text-center py-4">Aucun participant pour le moment.</p>
