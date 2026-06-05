@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Campagne;
 use App\Form\CampagneType;
 use App\Repository\CampagneRepository;
+use App\Repository\PaiementRepository;
+use App\Repository\ParticipantsRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +23,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CampagneController extends AbstractController
 {
 
+#################################################################################################################
 
 
     #[Route(name: 'app_campagne_index', methods: ['GET'])]
@@ -30,6 +33,7 @@ final class CampagneController extends AbstractController
             'campagnes' => $campagneRepository->findAll(),
         ]);
     }
+#################################################################################################################
 
     #[Route('/new', name: 'app_campagne_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -58,10 +62,18 @@ final class CampagneController extends AbstractController
 #################################################################################################################
 
     #[Route('/{id}', name: 'app_campagne_show', methods: ['GET'])]
-    public function show(Campagne $campagne): Response
+    public function show(Campagne $campagne,Request $request ,PaiementRepository $paiementRepository,string $id, ParticipantsRepository $participants): Response
     {
+        $idCampagne = $id ;
+        $listeParticipant = $participants->findBy(["campagne"=>"$id"]);
+        // dump($listeParticipant);
+          $paiements =    $paiementRepository->getAllVersement($idCampagne);
+      
+      
         return $this->render('campagne/show.html.twig', [
             'campagne' => $campagne,
+            'paiements' => $paiements,
+            'participants' =>$listeParticipant
         ]);
     }
 #################################################################################################################
@@ -84,6 +96,7 @@ final class CampagneController extends AbstractController
             'form' => $form,
         ]);
     }
+#################################################################################################################
 
     #[Route('/{id}', name: 'app_campagne_delete', methods: ['POST'])]
     public function delete(Request $request, Campagne $campagne, EntityManagerInterface $entityManager): Response
@@ -95,4 +108,6 @@ final class CampagneController extends AbstractController
 
         return $this->redirectToRoute('app_campagne_index', [], Response::HTTP_SEE_OTHER);
     }
+#################################################################################################################
+
 }

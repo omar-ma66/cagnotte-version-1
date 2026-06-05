@@ -40,4 +40,15 @@ class PaiementRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
-}
+
+    public function getAllVersement(string $key):array
+    {
+                return $this->createQueryBuilder('p')
+                       ->andWhere('p.campagne = :key')
+                       ->setParameter('key',$key)
+                       ->getQuery()
+                       ->getResult();        
+
+    }
+
+    }

@@ -1,58 +1,3 @@
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Campagne{% endblock %}
-
-{% block body %}
-    <h1>Campagne</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ campagne.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ campagne.titre }}</td>
-            </tr>
-            <tr>
-                <th>Contenu</th>
-                <td>{{ campagne.contenu }}</td>
-            </tr>
-            <tr>
-                <th>Objectif</th>
-                <td>{{ campagne.objectif }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ campagne.nom }}</td>
-            </tr>
-            <tr>
-                <th>Cree_a</th>
-               
-                <td>{{  campagne.getCreeA()|date('Y-m-d H:i:s')  }}</td>
-            </tr>
-            <tr>
-                <th>Mise_a_jour</th>
-               
-                <td>{{campagne.getMiseAJour()|date('Y-m-d H:i:s')  }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_campagne_index') }}">back to list</a>
-
-    <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}">edit</a>
-
-   
-<a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="btn bg-pink-500 text-white font-bold py-2 px-4 rounded">
-    Participer à cette campagne
-</a> 
-
-    {{ include('campagne/_delete_form.html.twig') }}
-{% endblock %}
- #}
-
 
 
 {% extends 'base.html.twig' %}
@@ -60,6 +5,40 @@
 {% block title %}Détails de la Campagne{% endblock %}
 
 {% block body %}
+{{  include("_partials/_nav_barre.html.twig") }}
+<div>
+                <p> Liste des participants {{ participants |length}}  </p>
+
+                        {% for paticipant in participants %}
+                                    <p>Nom: {{ paticipant.nom }}  Email: {{ paticipant.email }}  </p>
+                        {% endfor %}
+
+
+  <p> nombre de paiements   {{ paiements|length }} </p>
+      {% set participants = paiements|length %}
+        {% set somme = 0 %}
+                {%  for paiement in paiements  %}
+
+                        <p> {% set somme = somme + paiement.montant %} </p>
+
+                {% endfor %}
+
+        <p>Les paiements effectués  {{ somme }}  euros </p>        
+        <p>campagne objectif {{ campagne.objectif }}  euros </p>        
+          
+          {% set pourcentage =  100 * somme / campagne.objectif  %}
+            {% set pourcentagecalcul = pourcentage %}
+                        {% if pourcentage > 100 %}
+                             {% set pourcentage = 100 %}
+                            {% set pourcentagecalcul = pourcentage %}
+                         {% endif %}
+          <p> {{  pourcentage }} %  realisé</p>
+          <p> Nombre de participants {{ participants }} </p>
+
+          {# {% set pourcentage =   "w-" ~ pourcentage ~ "/100" %} #}
+          <p> {% set  pourcentage = pourcentage ~'%' %} </p>
+</div>
+
 <div class="max-w-3xl mx-auto px-4 py-8">
     
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 mb-8 border-b border-gray-200">
@@ -82,6 +61,11 @@
             </span>
         </div>
         
+        {############################       barre de progression     ################################}
+                <div class="h-2.5 bg-green-100 border-gray-500 border-1 rounded-2xl">
+                <div   style="width: {{ pourcentage  }};"   class="h-2.5  bg-green-400 rounded-2xl"></div>
+                 </div>
+        {############################################################################################}
         <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
             <dl class="sm:divide-y sm:divide-gray-200">
                 
@@ -128,11 +112,16 @@
         </div>
 
         <div class="order-1 sm:order-2 w-full sm:w-auto">
+        {%  if pourcentagecalcul  < 100 %}
             <a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-md text-base font-bold text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transform hover:-translate-y-0.5 transition-all duration-150">
                 💖 Participer à cette campagne
             </a>
+        {% endif %}    
         </div>
         
     </div>
 </div>
+
+{{  include("_partials/_footer.html.twig") }}
+
 {% endblock %}
