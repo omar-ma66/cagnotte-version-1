@@ -10,6 +10,7 @@ use App\Entity\Participants;
 use Symfony\Component\Form\Extension\Core\Type\TextType; //  BON IMPORT
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,15 @@ class ParticipantsType extends AbstractType
                 'label' => 'Adresse Email',
                 'label_attr' => ['class' => 'block text-sm font-semibold text-gray-700 mb-1'],
                 'attr' => ['class' => $inputStyle, 'placeholder' => 'jean.dupont@example.com']
+            ])
+            ->add('etreAnonyme',ChoiceType::class,[
+                'label'=>'voulez vous être anonyme ?',
+                'choices'=>[
+                    'Oui je reste anonyme' => true ,
+                    'Non  affichez mon nom' => false],
+                 'data' => false,
+                 'multiple'=>false,
+                 'expanded' => false   
             ])
 
           //  ->add('nom')

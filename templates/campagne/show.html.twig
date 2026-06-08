@@ -45,6 +45,17 @@
              <p>  {{ paiement.participant.nom }}  {{ paiement.montant}}  </p>
              {% endfor %}  
 
+{# ############################################################################################################################ #}
+        {%  for paiement in paiements  %}
+          {% if paiement.participant.etreAnonyme == true %}
+          <p> ne pas afficher les info de ce contributeur </p>
+          {% else %}
+          <p> oui afficher les infos de ce contributeur </p>
+          {% endif %}
+        {% endfor %}    
+
+{# ############################################################################################################################ #}
+
 <div class="max-w-2xl mx-auto my-6 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 font-sans text-gray-800">
     
     {# --- SECTION DES CALCULS DISCRETS --- #}
@@ -113,9 +124,14 @@
             {% for paiement in paiements %}  
                 <div class="p-3 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border border-gray-100">
                     {# <span class="text-sm font-semibold text-gray-900">{{ paticipant.nom }} : </span> original #}
+                    {% if paiement.participant.etreAnonyme == false %}
                     <span class="text-sm font-semibold text-gray-900">{{ paiement.participant.nom }} : {{ paiement.montant }} € </span>
                     <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paiement.participant.email }}</span>
                     {# <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paticipant.email }}</span>  originale #}
+                    {% else %}
+                          <span class="text-sm font-semibold text-gray-900"> ANONYME : {{ paiement.montant }} € </span>
+                    <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">ANONYME</span> 
+                    {% endif %}
                 </div>
             {% else %}
                 <p class="text-sm text-gray-400 italic text-center py-4">Aucun participant pour le moment.</p>
@@ -204,7 +220,7 @@
                 💖 Participer à cette campagne
             </a>
          {% else %}
-               💖 Un grand merci a vous tous cette campagne est terminer 💖  
+              <a href ="{{ path('app_campagne_index')}} " > 💖 Un grand merci a vous tous cette campagne est terminer 💖  </a>
         {% endif %}    
         </div>
         

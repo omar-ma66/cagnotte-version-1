@@ -31,6 +31,9 @@ class Participants
     #[ORM\JoinColumn(name: "campagne_id", referencedColumnName: "id", columnDefinition: "VARCHAR(50) NULL")]
     private ?Campagne $campagne = null;
 
+    #[ORM\Column]
+    private ?bool $etreAnonyme = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Participants
     public function setCampagne(?Campagne $campagne): static
     {
         $this->campagne = $campagne;
+
+        return $this;
+    }
+
+    public function isEtreAnonyme(): ?bool
+    {
+        return $this->etreAnonyme;
+    }
+
+    public function setEtreAnonyme(bool $etreAnonyme): static
+    {
+        $this->etreAnonyme = $etreAnonyme;
 
         return $this;
     }
