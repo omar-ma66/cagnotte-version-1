@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ParticipantsRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\component\validator\constraints as Assert;
 #[ORM\Entity(repositoryClass: ParticipantsRepository::class)]
 class Participants
 {
@@ -14,9 +14,11 @@ class Participants
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column(nullable: true)]

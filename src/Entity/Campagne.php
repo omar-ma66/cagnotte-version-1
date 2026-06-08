@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\component\validator\Constraints as Assert ;
 #[ORM\Entity(repositoryClass: CampagneRepository::class)]
 class Campagne
 {
@@ -20,15 +20,18 @@ class Campagne
     private ?string $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $contenu = null;
 
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    #[Assert\Positive]
     private ?string $objectif = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]

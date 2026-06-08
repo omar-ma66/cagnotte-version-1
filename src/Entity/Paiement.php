@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PaiementRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PaiementRepository::class)]
 class Paiement
 {
@@ -14,6 +14,7 @@ class Paiement
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
     private ?float $montant = null;
 
     #[ORM\Column(nullable: true)]
