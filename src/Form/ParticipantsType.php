@@ -34,11 +34,12 @@ class ParticipantsType extends AbstractType
             ->add('etreAnonyme',ChoiceType::class,[
                 'label'=>'voulez vous être anonyme ?',
                 'choices'=>[
-                    'Oui je reste anonyme' => true ,
-                    'Non  affichez mon nom' => false],
+                    '  Oui je reste anonyme  ' => true ,
+                    '  Non  affichez mon nom  ' => false],
                  'data' => false,
                  'multiple'=>false,
-                 'expanded' => false   
+                 'expanded' => true ,
+                 'attr' =>['class' => 'p-2 mr-4 text-blue-600 inline-block border border-black rounded-2xl']  ,
             ])
 
           //  ->add('nom')

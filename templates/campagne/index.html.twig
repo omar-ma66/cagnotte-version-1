@@ -3,6 +3,7 @@
 {% block title %}Campagne index{% endblock %}
 
 {% block body %}
+{{ include('_partials/_nav_barre.html.twig') }}
 <div class="max-w-7xl mx-auto px-4 py-8">
 
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
@@ -83,4 +84,7 @@
         </div>
     </div>
 </div>
+
+{{ include('_partials/_footer.html.twig') }}
+
 {% endblock %}

@@ -1,11 +1,323 @@
-{% extends 'base.html.twig' %}
+{# {% extends 'base.html.twig' %}
 
 {% block title %}New Campagne{% endblock %}
 
 {% block body %}
+{{ include('_partials/_nav_barre.html.twig') }}
+
     <h1>Create new Campagne</h1>
 
     {{ include('campagne/_form.html.twig') }}
 
+
     <a href="{{ path('app_campagne_index') }}">back to list</a>
+{{ include('_partials/_footer.html.twig') }}
+
+{% endblock %} #}
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Cagnot'potes{% endblock %}
+
+{% block stylesheets %}
+<meta name="turbo-visit-control" content="reload">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <style>
+        .parallax-bg {
+            background-image: url('../assets/images/11.jpg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .editor-toolbar {
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            border-color: #e5e7eb !important;
+            background-color: #f9fafb;
+        }
+        .CodeMirror {
+            border-bottom-left-radius: 0.5rem;
+            border-bottom-right-radius: 0.5rem;
+            border-color: #e5e7eb !important;
+            font-family: inherit;
+        }
+    </style>
+{% endblock %}    
+
+{% block body %}
+<div class="bg-gray-50 text-gray-800 antialiased" data-turbo-cache="false">
+    {{ include('_partials/_nav_barre.html.twig') }}
+
+    <div id="sidenav-overlay" class="fixed inset-0 bg-black/40 z-50 hidden transition-opacity duration-300"></div>
+    <div id="nav-mobile" class="fixed top-0 left-0 bottom-0 w-64 bg-white z-50 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out p-6">
+        <div class="flex justify-between items-center mb-8">
+            <span class="text-xl font-medium text-gray-700">Navigation</span>
+            <button id="menu-close" class="text-gray-500 hover:text-gray-800">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+        <ul class="space-y-4">
+            <li>
+                <a href="{{ path('app_campagne_index') }}" class="block text-center bg-pink-500 hover:bg-pink-600 text-white px-4 py-3 rounded shadow transition uppercase text-sm font-medium tracking-wider">
+                    Créer une campagne
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="parallax-bg relative h-[450px] flex items-center justify-center text-white">
+        <div class="absolute inset-0 bg-black/40"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <div class="hidden md:block">
+                <h1 class="text-4xl md:text-5xl font-light mb-4">Un cadeau commun à organiser ?</h1>
+                <h5 class="text-xl font-light text-gray-200">Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !</h5>
+            </div>
+            <div class="block md:hidden">
+                <h5 class="text-2xl font-light">Un cadeau commun à organiser ?</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <div class="text-center mb-8">
+            <h4 class="text-3xl font-medium text-gray-700">Créez votre campagne maintenant</h4>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-6 md:p-8">
+            
+            {{ form_start(form, {'attr': {'class': 'grid grid-cols-1 md:grid-cols-12 gap-6', }}) }}
+                
+                <div class="relative md:col-span-6">
+                    {{ form_widget(form.nom) }}
+                    {{ form_label(form.nom) }}
+                    {{ form_errors(form.nom) }}
+                </div>
+
+                <div class="relative md:col-span-8">
+                    {{ form_widget(form.titre) }}
+                    {{ form_label(form.titre) }}
+                    {{ form_errors(form.titre) }}
+                </div>
+
+                <div class="relative md:col-span-4">
+                    {{ form_widget(form.objectif) }}
+                    {{ form_label(form.objectif) }}
+                    {{ form_errors(form.objectif) }}
+                </div>
+
+                <div class="md:col-span-12 mt-2">
+                    {{ form_label(form.contenu) }}
+                    {{ form_widget(form.contenu) }}  
+                    {{ form_errors(form.contenu) }}
+                </div>
+              
+                <div class="md:col-span-12 mt-4">
+                    <button class="w-full flex items-center justify-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-6 rounded-lg shadow-md transition duration-200 text-lg group" type="submit">
+                        Valider la campagne
+                        <i class="material-icons ml-2 transform group-hover:translate-x-1 transition-transform">send</i>
+                    </button>
+                </div>
+
+            {{ form_end(form) }}
+
+
+
+            <div class="mt-6 text-center">
+                <a href="{{ path('app_campagne_index') }}" class="text-teal-600 hover:text-teal-800 transition text-sm">← Retour à la liste</a>
+            </div>
+          
+        </div>
+    </div>
+
+    {{ include ('_partials/_footer.html.twig')}}
+</div>
+{% endblock %}
+{# 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        (function() {
+            let editor = null;
+            const EDITOR_ID = "{{ form.contenu.vars.id }}";
+
+            function destroyEditor() {
+                if (!editor) return;
+                
+                try {
+                    // Récupérer le textarea avant que SimpleMDE ne le cache
+                    const textarea = document.getElementById(EDITOR_ID);
+                    
+                    // Détruire l'éditeur
+                    editor.toTextArea();
+                    
+                    // Forcer la suppression de tous les éléments DOM créés par SimpleMDE
+                    document.querySelectorAll('.editor-preview-side, .CodeMirror, .editor-toolbar, .editor-statusbar').forEach(el => {
+                        if (el.parentNode) el.parentNode.removeChild(el);
+                    });
+                    
+                    editor = null;
+                    
+                    // Réinitialiser le textarea
+                    if (textarea) {
+                        textarea.style.display = 'block';
+                        textarea.classList.remove('simplemde-ready');
+                        textarea.value = textarea.value; // Forcer le refresh du DOM
+                    }
+                } catch(e) {
+                    console.warn('Erreur destruction SimpleMDE:', e);
+                    editor = null;
+                }
+            }
+
+            function initEditor() {
+                const textarea = document.getElementById(EDITOR_ID);
+                
+                if (!textarea) {
+                    console.warn('Textarea non trouvé:', EDITOR_ID);
+                    return;
+                }
+                
+                // S'assurer que l'ancien éditeur est complètement détruit
+                destroyEditor();
+                
+                // Attendre un peu que le DOM soit complètement prêt
+                setTimeout(() => {
+                    try {
+                        if (!editor && document.getElementById(EDITOR_ID)) {
+                            editor = new SimpleMDE({ 
+                                element: document.getElementById(EDITOR_ID),
+                                spellChecker: false,
+                                status: false,
+                                placeholder: "Décrivez à vos amis pourquoi vous faites une campagne..."
+                            });
+                            console.log('SimpleMDE initialisé avec succès');
+                        }
+                    } catch(e) {
+                        console.error('Erreur init SimpleMDE:', e);
+                    }
+                }, 100);
+
+                setupMobileMenu();
+            }
+
+            function setupMobileMenu() {
+                const trigger = document.getElementById('menu-trigger');
+                const closeBtn = document.getElementById('menu-close');
+                const sidenav = document.getElementById('nav-mobile');
+                const overlay = document.getElementById('sidenav-overlay');
+
+                if (trigger && sidenav && overlay) {
+                    trigger.onclick = () => { 
+                        sidenav.classList.remove('-translate-x-full'); 
+                        overlay.classList.remove('hidden'); 
+                    };
+                    if (closeBtn) closeBtn.onclick = () => { 
+                        sidenav.classList.add('-translate-x-full'); 
+                        overlay.classList.add('hidden'); 
+                    };
+                    overlay.onclick = () => { 
+                        sidenav.classList.add('-translate-x-full'); 
+                        overlay.classList.add('hidden'); 
+                    };
+                }
+            }
+
+            // IMPORTANT: Nettoyer AVANT que Turbo ne quitte la page
+            document.addEventListener("turbo:before-visit", (event) => {
+                if (event.detail.url && !event.detail.url.includes('/campagne/new')) {
+                    destroyEditor();
+                }
+            });
+            
+            // Nettoyage avant le cache
+            document.addEventListener("turbo:before-cache", destroyEditor);
+            
+            // Nettoyage avant le rendu
+            document.addEventListener("turbo:before-render", destroyEditor);
+            
+            // Initialisation
+            document.addEventListener("DOMContentLoaded", initEditor);
+            document.addEventListener("turbo:load", initEditor);
+        })();
+    </script>
+{% endblock %} #}
+
+ {% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script>
+        (function() {
+            let editor = null;
+            const EDITOR_ID = "{{ form.contenu.vars.id }}";
+
+            function destroyEditor() {
+                if (!editor) return;
+                try {
+                    editor.toTextArea();
+                    document.querySelectorAll('.editor-preview-side, .CodeMirror, .editor-toolbar, .editor-statusbar').forEach(el => {
+                        if (el.parentNode) el.parentNode.removeChild(el);
+                    });
+                    editor = null;
+                    const textarea = document.getElementById(EDITOR_ID);
+                    if (textarea) {
+                        textarea.style.display = 'block';
+                        textarea.classList.remove('simplemde-ready');
+                    }
+                } catch(e) {
+                    console.warn('Erreur destruction SimpleMDE:', e);
+                    editor = null;
+                }
+            }
+
+            function initEditor() {
+                const textarea = document.getElementById(EDITOR_ID);
+                if (!textarea) return;
+                
+                if (textarea.classList.contains('simplemde-ready')) return;
+
+                try {
+                    editor = new SimpleMDE({ 
+                        element: textarea,
+                        spellChecker: false,
+                        status: false,
+                        placeholder: "Décrivez à vos amis pourquoi vous faites une campagne..."
+                    });
+
+                    // 🌟 LA SYNCHRONISATION EN TEMPS RÉEL POUR LA BASE DE DONNÉES :
+                    editor.codemirror.on("change", function() {
+                        textarea.value = editor.value();
+                    });
+
+                    textarea.classList.add('simplemde-ready');
+                } catch(e) {
+                    console.error('Erreur init SimpleMDE:', e);
+                }
+
+                setupMobileMenu();
+            }
+
+            function setupMobileMenu() {
+                const trigger = document.getElementById('menu-trigger');
+                const closeBtn = document.getElementById('menu-close');
+                const sidenav = document.getElementById('nav-mobile');
+                const overlay = document.getElementById('sidenav-overlay');
+
+                if (trigger && sidenav && overlay) {
+                    trigger.onclick = () => { sidenav.classList.remove('-translate-x-full'); overlay.classList.remove('hidden'); };
+                    if (closeBtn) closeBtn.onclick = () => { sidenav.classList.add('-translate-x-full'); overlay.classList.add('hidden'); };
+                    overlay.onclick = () => { sidenav.classList.add('-translate-x-full'); overlay.classList.add('hidden'); };
+                }
+            }
+
+            // Événements Turbo de nettoyage de cache uniquement
+            document.addEventListener("turbo:before-cache", destroyEditor);
+            
+            // Initialisation de l'éditeur au chargement initial et via Turbo
+            document.addEventListener("DOMContentLoaded", initEditor);
+            document.addEventListener("turbo:load", initEditor);
+        })();
+    </script>
 {% endblock %}

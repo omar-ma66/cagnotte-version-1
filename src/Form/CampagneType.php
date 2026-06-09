@@ -3,9 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Campagne;
-// use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType ;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,27 +14,32 @@ class CampagneType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $inputClasses = 'peer w-full border-b-2 border-gray-300 py-2 pt-4 focus:outline-none focus:border-teal-500 transition-colors placeholder-transparent';
+        $labelClasses = 'absolute left-0 top-0 text-sm text-gray-500 transition-all peer-placeholder-shown:text-base peer-placeholder-shown:top-3 peer-focus:top-0 peer-focus:text-sm peer-focus:text-teal-500';
+
         $builder
-            // ->add('id')
-            ->add('titre',TextType::class,[
-                'attr'=>['class' => 'w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm text-gray-900" placeholder="Ex: Jean Dupont']
+            ->add('nom', TextType::class, [
+                'label' => 'Votre Nom',
+                'label_attr' => ['class' => $labelClasses],
+                'attr' => ['class' => $inputClasses, 'placeholder' => 'Votre Nom'],
             ])
-            ->add('contenu',TextType::class,[
-                'attr' =>['class' => 'w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm text-gray-900" placeholder="Ex: Jean Dupont']
+            ->add('titre', TextType::class, [
+                'label' => 'Donnez un titre à votre campagne',
+                'label_attr' => ['class' => $labelClasses],
+                'attr' => ['class' => $inputClasses, 'placeholder' => 'Titre de votre campagne'],
             ])
-            ->add('objectif',TextType::class ,[
-                'attr' =>['class' => 'w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm text-gray-900" placeholder="Ex: Jean Dupont']
+            ->add('objectif', NumberType::class, [
+                'label' => 'Votre objectif en euros',
+                'label_attr' => ['class' => $labelClasses],
+                'attr' => ['class' => $inputClasses, 'placeholder' => 'Votre objectif en euros'],
             ])
-            ->add('nom',TextType::class,[
-                'attr' => ['class'=>'w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 text-sm text-gray-900" placeholder="Ex: Jean Dupont']
-            ])
-            // ->add('cree_a', null, [
-                // 'widget' => 'single_text',
-            // ])
-            // ->add('mise_a_jour', null, [
-                // 'widget' => 'single_text',
-            // ])
-        ;
+            ->add('contenu', TextareaType::class, [
+                'label' => 'Description de votre campagne',
+                'label_attr' => ['class' => 'block text-sm font-medium text-gray-600 mb-2'],
+                'attr' => [
+                    'placeholder' => 'Décrivez à vos amis pourquoi vous faites une campagne...'
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
