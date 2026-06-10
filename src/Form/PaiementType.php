@@ -30,7 +30,7 @@ class PaiementType extends AbstractType
         $builder
             // 1. Champ Montant stylisé
             ->add('montant', NumberType::class, [
-                'label' => 'Montant de votre participation (€)',
+                'label' => ' votre participation (€)',
                 'label_attr' => ['class' => 'block text-sm font-semibold text-gray-700 mb-1'],
                 'attr' => [
                     'class' => $inputStyle,
@@ -57,7 +57,7 @@ class PaiementType extends AbstractType
             // 4. Sous-formulaire Participant (Imbriqué)
             ->add('participant', ParticipantsType::class, [
                 'label' => false,
-                'row_attr' => ['class' => 'mt-4 border-t border-gray-100 pt-4']
+                'row_attr' => ['class' => 'mt-6 border-t border-gray-100 pt-4']
             ])
        
             // ->add('campagne', EntityType::class, [

@@ -38,7 +38,7 @@ final class PaiementController extends AbstractController
                     $paiement->setCampagne($campagne);
                 }
         }
-        
+       
         $form = $this->createForm(PaiementType::class, $paiement);
         $form->handleRequest($request);
 
@@ -66,9 +66,10 @@ final class PaiementController extends AbstractController
             'paiement' => $paiement,
             'form' => $form,
             'campagne'=> $id,
-            // 'campagne' => $campagneRepository->findAll()
+            'campagnes' => $campagneRepository->find($id)
          
         ]);
+        
     }
 
     

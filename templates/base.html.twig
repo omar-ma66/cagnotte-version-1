@@ -1,141 +1,145 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Cagnot'potes!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        {% block stylesheets %}
-        {# <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> #}
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link rel="stylesheet" href="{{ asset('style/app.css') }}">
-        {% endblock %}
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Cagnot'potes!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		{% block stylesheets %}
+			<script src="https://cdn.tailwindcss.com"></script>
+			<link rel="stylesheet" href="{{ asset('style/app.css') }}">
+			<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
 
-        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
-        {% if frankenphpHotReload %}
-        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
-        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
-        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
-        {% endif %}
-    </head>
-    <body class="bg-gray-50 text-gray-800 antialiased">
-        
-        {% block body %}
-            
-            {% include ('_partials/_nav_barre.html.twig') %}
+		{% endblock %}
 
-            <div class="relative bg-cover bg-center bg-no-repeat min-h-[500px] flex items-center justify-center py-16 px-4" style="background-image: url('{{ asset('assets/images/11.jpg') }}');">
-                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-                
-                <div class="relative z-10 max-w-4xl w-full text-center text-white">
-                    <div class="hidden md:block mb-8">
-                        <h1 class="text-5xl font-light mb-4">Un cadeau commun à organiser ?</h1>
-                        <p class="text-xl font-light text-gray-200">Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !</p>
-                    </div>
-                    <div class="block md:hidden mb-6">
-                        <h2 class="text-2xl font-semibold">Un cadeau commun à organiser ?</h2>
-                    </div>
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
 
-                    <div class="bg-white rounded-lg shadow-2xl p-6 text-gray-900 max-w-2xl mx-auto">
-                        <div class="flex flex-col sm:flex-row gap-4 items-center">
-                            <div class="w-full sm:flex-1 text-left">
-                                <label for="cag_name" class="block text-sm font-medium text-gray-700 mb-1">Nommez votre nouvelle campagne</label>
-                                <input id="cag_name" type="text" required
-                                       class="w-full border border-gray-300 rounded px-3 py-2.5 text-black focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" 
-                                       placeholder="Ex: Anniversaire de Thomas...">
-                            </div>
-                            <div class="w-full sm:w-auto sm:self-end">
-                                <a href="{{ path('app_campagne_new') }}" 
-                                   class="block w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded shadow transition-colors text-center">
-                                    Valider
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+		{% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+		{% if frankenphpHotReload %}
+			<meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+			<script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+			<script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+		{% endif %}
+	</head>
+	<body class="bg-gray-50 text-gray-800 antialiased">
 
-            <div class="max-w-6xl mx-auto px-4 py-16">
-                <h3 class="text-3xl font-light text-center text-gray-700 mb-12">Comment ça marche ?</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow border border-gray-100 mb-4">
-                            <i class="material-icons text-teal-500 text-3xl">create</i>
-                        </div>
-                        <h4 class="text-xl font-medium mb-2">Créez</h4>
-                        <p class="text-gray-500 font-light max-w-xs mx-auto">et personnalisez votre campagne commune en 30 secondes !</p>
-                    </div>
+		{% block body %}
 
-                    <div class="text-center">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow border border-gray-100 mb-4">
-                            <i class="material-icons text-teal-500 text-3xl">wc</i>
-                        </div>
-                        <h4 class="text-xl font-medium mb-2">Invitez</h4>
-                        <p class="text-gray-500 font-light max-w-xs mx-auto">vos amis en utilisant les réseaux sociaux, mail, etc.</p>
-                    </div>
+			{% include ('_partials/_nav_barre.html.twig') %}
 
-                    <div class="text-center">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow border border-gray-100 mb-4">
-                            <i class="material-icons text-teal-500 text-3xl">shopping_cart</i>
-                        </div>
-                        <h4 class="text-xl font-medium mb-2">Collectez</h4>
-                        <p class="text-gray-500 font-light max-w-xs mx-auto">et utilisez l'argent comme bon vous semble avec vos amis.</p>
-                    </div>
-                </div>
-            </div>
+			<div class="relative bg-cover bg-center bg-no-repeat min-h-[500px] flex items-center justify-center py-16 px-4" style="background-image: url('{{ asset('assets/images/11.jpg') }}');">
+				<div class="absolute inset-0 bg-black bg-opacity-40"></div>
 
-            <div class="relative bg-cover bg-center bg-no-repeat py-24 px-4" style="background-image: url('{{ asset('assets/images/10.jpg') }}');">
-                <div class="absolute inset-0 bg-black bg-opacity-40"></div>
-                <div class="relative z-10 text-center text-white">
-                    <h4 class="text-2xl md:text-3xl font-light leading-relaxed">
-                        Une campagne pensée pour vous<br>et pour toutes les occasions
-                    </h4>
-                </div>
-            </div>
+				<div class="relative z-10 max-w-4xl w-full text-center text-white">
+					<div class="hidden md:block mb-8">
+						<h1 class="text-5xl font-light mb-4">Un cadeau commun à organiser ?</h1>
+						<p class="text-xl font-light text-gray-200">Anniversaire, pot de départ, crémaillère... N'avancez plus les frais !</p>
+					</div>
+					<div class="block md:hidden mb-6">
+						<h2 class="text-2xl font-semibold">Un cadeau commun à organiser ?</h2>
+					</div>
 
-            <div class="max-w-6xl mx-auto px-4 py-16">
-                <h3 class="text-3xl font-light text-center text-gray-700 mb-12">Les campagnes du moment</h3>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    
-                    {% for i in 1..3 %}
-                    <a href="#campagne-{{ i }}" class="block transition-transform duration-200 hover:-translate-y-1">
-                        <div class="bg-white rounded-lg shadow border border-gray-100 overflow-hidden">
-                            <div class="p-6">
-                                <h4 class="text-xl font-semibold text-teal-600 mb-3">Titre campagne</h4>
-                                <p class="text-gray-600 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore...</p>
-                            </div>
-                            
-                            <div class="border-t border-gray-100 px-6 py-4 bg-gray-50 flex justify-between items-center text-gray-700">
-                                <div class="flex items-center gap-1">
-                                    <i class="material-icons text-teal-500">account_circle</i>
-                                    <span class="font-bold text-sm">12</span>
-                                </div>
-                                <div class="flex items-center gap-1">
-                                    <i class="material-icons text-teal-500">euro_symbol</i>
-                                    <span class="font-bold text-sm">350</span>
-                                </div>
-                            </div>
-                            
-                            <div class="w-full bg-gray-200 h-2">
-                                <div class="bg-teal-500 h-2" style="width: 70%"></div>
-                            </div>
-                        </div>
-                    </a>
-                    {% endfor %}
+					<div class="bg-white rounded-lg shadow-2xl p-6 text-gray-900 max-w-2xl mx-auto">
+						<div class="flex flex-col sm:flex-row gap-4 items-center">
+							<div class="w-full sm:flex-1 text-left">
+								<label for="cag_name" class="block text-sm font-medium text-gray-700 mb-1">Nommez votre nouvelle campagne</label>
+								<input id="cag_name" type="text" required class="w-full border border-gray-300 rounded px-3 py-2.5 text-black focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500" placeholder="Ex: Anniversaire de Thomas...">
+							</div>
+							<div class="w-full sm:w-auto sm:self-end">
+								<a href="{{ path('app_campagne_new') }}" class="block w-full sm:w-auto bg-pink-500 hover:bg-pink-600 text-white font-semibold uppercase tracking-wider py-3 px-8 rounded shadow transition-colors text-center">
+									Valider
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-                </div>
-            </div>
+			<div class="max-w-6xl mx-auto px-4 py-16">
+				<h3 class="text-3xl font-light text-center text-gray-700 mb-12">Comment ça marche ?</h3>
 
-            {% include '_partials/_footer.html.twig' %}
-       
-          
-            
-        {% endblock %}  <script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
-    </body>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="text-center">
+						<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow border border-gray-100 mb-4">
+							<i class="material-icons text-teal-500 text-3xl">create</i>
+						</div>
+						<h4 class="text-xl font-medium mb-2">Créez</h4>
+						<p class="text-gray-500 font-light max-w-xs mx-auto">et personnalisez votre campagne commune en 30 secondes !</p>
+					</div>
+
+					<div class="text-center">
+						<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow border border-gray-100 mb-4">
+							<i class="material-icons text-teal-500 text-3xl">people</i>
+						</div>
+						<h4 class="text-xl font-medium mb-2">Invitez</h4>
+						<p class="text-gray-500 font-light max-w-xs mx-auto">vos amis en utilisant les réseaux sociaux, mail, etc.</p>
+					</div>
+
+					<div class="text-center">
+						<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white shadow border border-gray-100 mb-4">
+							<i class="material-icons text-teal-500 text-3xl">shopping_cart</i>
+						</div>
+						<h4 class="text-xl font-medium mb-2">Collectez</h4>
+						<p class="text-gray-500 font-light max-w-xs mx-auto">et utilisez l'argent comme bon vous semble avec vos amis.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="relative bg-cover bg-center bg-no-repeat py-24 px-4" style="background-image: url('{{ asset('assets/images/10.jpg') }}');">
+				<div class="absolute inset-0 bg-black bg-opacity-40"></div>
+				<div class="relative z-10 text-center text-white">
+					<h4 class="text-2xl md:text-3xl font-light leading-relaxed">
+						Une campagne pensée pour vous<br>et pour toutes les occasions
+					</h4>
+				</div>
+			</div>
+
+			<div class="max-w-6xl mx-auto px-4 py-16">
+				<h3 class="text-3xl font-light text-center text-gray-700 mb-12">Les campagnes du moment</h3>
+
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+					{% for i in 1..3 %}
+						<a href="#campagne-{{ i }}" class="block transition-transform duration-200 hover:-translate-y-1">
+							<div class="bg-white rounded-lg shadow border border-gray-100 overflow-hidden">
+								<div class="p-6">
+									<h4 class="text-xl font-semibold text-teal-600 mb-3">Titre campagne</h4>
+									<p class="text-gray-600 text-sm">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore...</p>
+								</div>
+
+								<div class="border-t border-gray-100 px-6 py-4 bg-gray-50 flex justify-between items-center text-gray-700">
+									<div class="flex items-center gap-1">
+										<i class="material-icons text-teal-500">account_circle</i>
+										<span class="font-bold text-sm">12</span>
+									</div>
+									<div class="flex items-center gap-1">
+										<i class="material-icons text-teal-500">euro_symbol</i>
+										<span class="font-bold text-sm">350</span>
+									</div>
+								</div>
+
+								<div class="w-full bg-gray-200 h-2">
+									<div class="bg-teal-500 h-2" style="width: 70%"></div>
+								</div>
+							</div>
+						</a>
+					{% endfor %}
+
+				</div>
+			</div>
+
+			{% include '_partials/_footer.html.twig' %}
+
+
+		{% endblock %}
+		<script type="text/javascript" src="{{ asset('assets/js/scripts.js') }}"></script>
+	</body>
 </html>

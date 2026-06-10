@@ -1,232 +1,203 @@
+{#  Calcule des variables #}
+
+{% set objectif_total = campagne.objectif %}
+{% set somme_total = 0 %}
+
+{% for paiement in paiements %}
+	{% set somme_total = somme_total + paiement.montant %}
+{% endfor %}
+
+{% set pourcentage = 100 * somme_total / objectif_total %}
+
+{% if pourcentage > 100 %}
+	{% set pourcentage = 100 %}
+{% endif %}
 
 
-{% extends 'base.html.twig' %}
+{# ##################### #}
 
-{% block title %}Détails de la Campagne{% endblock %}
+
+{%  extends "base.html.twig" %}
+{% block title %}
+	Cagnot' Potes
+{% endblock %}
 
 {% block body %}
-{{  include("_partials/_nav_barre.html.twig") }}
-{# <div>
-              
-                <p> Liste des participants {{ participants |length}}  </p>
-
-                        {% for paticipant in participants %}
-                                    <p>Nom: {{ paticipant.nom }}  Email: {{ paticipant.email }}  </p>
-                        {% endfor %}
+	{{ include('_partials/_nav_barre.html.twig') }}
+	<div class="bg-gray-50 text-gray-800 antialiased">
 
 
-  <p> nombre de paiements   {{ paiements|length }} </p>
-      {% set participants = paiements|length %}
-        {% set somme = 0 %}
-                {%  for paiement in paiements  %}
+		<div id="sidenav-overlay" class="fixed inset-0 bg-black/40 z-50 hidden transition-opacity duration-300"></div>
+		<div id="nav-mobile" class="fixed top-0 left-0 bottom-0 w-64 bg-white z-50 shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out p-6">
+			<div class="flex justify-between items-center mb-8">
+				<span class="text-xl font-medium text-gray-700">Navigation</span>
+				<button id="menu-close" class="text-gray-500 hover:text-gray-800">
+					<i class="material-icons">close</i>
+				</button>
+			</div>
+			<ul class="space-y-4">
+				<li>
+					<a href="create.html" class="block text-center bg-pink-500 hover:bg-pink-600 text-white px-4 py-3 rounded shadow transition uppercase text-sm font-medium tracking-wider">
+						Créer une campagne
+					</a>
+				</li>
+			</ul>
+		</div>
 
-                        <p> {% set somme = somme + paiement.montant %} </p>
+		<div class="relative h-[450px] bg-fixed bg-center bg-no-repeat bg-cover flex items-center justify-center text-white" style="background-image: url('../assets/images/8.jpg');">
+			<div class="absolute inset-0 bg-black/40"></div>
+			<div class="relative z-10 text-center px-4 max-w-4xl">
+				<h1 class="text-4xl md:text-5xl font-light mb-4">{{campagne.titre}}</h1>
+				<h5 class="text-xl font-light text-gray-200">- Organisée par :
+					{{ campagne.nom }}-</h5>
+			</div>
+		</div>
 
-                {% endfor %}
+		<section class="max-w-4xl mx-auto px-4 mt-8">
+			<div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative shadow-inner">
+				<div style="width:{{ pourcentage }}%" class="bg-teal-500 h-6 rounded-full flex items-center justify-center transition-all duration-500" style="width: 70%">
+					<span style="width:{{ pourcentage }}%" class="text-white text-center text-xs font-medium">{{ pourcentage}}%
+					</span>
+				</div>
+			</div>
+		</section>
 
-        <p>Les paiements effectués  {{ somme }}  euros </p>        
-        <p>campagne objectif {{ campagne.objectif }}  euros </p>        
-          
-          {% set pourcentage =  100 * somme / campagne.objectif  %}
-            {% set pourcentagecalcul = pourcentage %}
-                        {% if pourcentage > 100 %}
-                             {% set pourcentage = 100 %}
-                            {% set pourcentagecalcul = pourcentage %}
-                         {% endif %}
-          <p> {{  pourcentage }} %  realisé</p>
-          <p> Nombre de participants {{ participants }} </p>
+		<div class="max-w-4xl mx-auto px-4 py-12">
 
-        
-          <p> {% set  pourcentage = pourcentage ~'%' %} </p>
-</div> #}
-{# ############################################################################################################################ #}
+			<div class="flex justify-center mb-12">
+				<div class="w-full lg:w-10/12 bg-white rounded-lg shadow-md border border-gray-100 p-6">
+					<div class="flex justify-center md:grid-cols-2 gap-6 items-center">
 
-            {% for paiement in paiements %}
-             <p>  {{ paiement.participant.nom }}  {{ paiement.montant}}  </p>
-             {% endfor %}  
 
-{# ############################################################################################################################ #}
-        {%  for paiement in paiements  %}
-          {% if paiement.participant.etreAnonyme == true %}
-          <p> ne pas afficher les info de ce contributeur </p>
-          {% else %}
-          <p> oui afficher les infos de ce contributeur </p>
-          {% endif %}
-        {% endfor %}    
+						{% if somme_total < objectif_total %}
+							<div>
+								<a href="{{ path('app_paiement_new',{id:campagne.id} )}}" class="block text-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-6 rounded shadow transition duration-200 text-lg">
+									je veux Participer
+								</a>
+							</div>
+						{% else %}
+							<div>
+								<a href="{{ path('app_campagne_index')}}" class="block text-center bg-pink-500 hover:bg-pink-600 text-white font-medium py-3 px-6 rounded shadow transition duration-200 text-lg">
+									La campagne est terminé merci pour votre participation
+								</a>
+							</div>
 
-{# ############################################################################################################################ #}
+						{% endif %}
 
-<div class="max-w-2xl mx-auto my-6 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 font-sans text-gray-800">
-    
-    {# --- SECTION DES CALCULS DISCRETS --- #}
-    {% set nombre_paiements = paiements|length %}
-    {% set somme = 0 %}
-    {% for paiement in paiements %}
-        {% set somme = somme + paiement.montant %}
-    {% endfor %}
 
-    {# Calcul de base #}
-    {% set pourcentage = campagne.objectif > 0 ? (100 * somme / campagne.objectif) : 0 %}
-    
-    {# Conservation de ta variable demandée (valeur brute) #}
-    {% set pourcentagecalcul = pourcentage %}
-      
-      {% if pourcentage >= 100 %}
-      {% set pourcentage = 100 %}
-      {% set pourcentagecalcul = 100 %}
-      {% endif %}
-    
-    {# Sécurité pour l'affichage textuel et la jauge #}
-    {% set pourcentage_affichage = pourcentagecalcul|number_format(1, ',', ' ') %}
-    {% set pourcentage_barre = pourcentage > 100 ? 100 : pourcentage %}
+					</div>
+				</div>
+			</div>
 
-    {# 1. EN-TÊTE : STATS RAPIDES #}
-    <div class="grid grid-cols-2 gap-4 mb-6">
-        <div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
-            <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Objectif</p>
-            <p class="text-xl font-black text-gray-900 mt-0.5">{{ campagne.objectif|number_format(0, ',', ' ') }} €</p>
-        </div>
-        <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-            <p class="text-xs font-bold text-emerald-600 uppercase tracking-wider">Récolté</p>
-            <p class="text-xl font-black text-emerald-900 mt-0.5">{{ somme|number_format(0, ',', ' ') }} €</p>
-        </div>
-    </div>
+			<div class="text-center mb-8">
+				<h4 class="text-3xl font-medium text-gray-700">A propos de la campagne</h4>
+			</div>
 
-    {# 2. BARRE DE PROGRESSION DYNAMIQUE #}
-    <div class="mb-6 space-y-2">
-        <div class="flex justify-between items-center text-sm">
-            <span class="font-medium text-gray-500">Progression</span>
-            <span class="font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">
-                {{ pourcentage_affichage }} % réalisé
-            </span>
-        </div>
-        <div class="w-full bg-gray-100 rounded-full h-3 overflow-hidden border border-gray-200">
-            {# La jauge utilise pourcentage_barre (qui ne dépasse jamais 100%) #}
-            <div style="width: {{ pourcentage_barre }}% !important;" 
-                 class="h-full bg-emerald-500 rounded-full transition-all duration-500 ease-out">
-            </div>
-        </div>
-    </div>
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto mb-12">
+				<div class="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center flex flex-col items-center">
+					<div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center shadow-sm mb-3">
+						<i class="material-icons text-teal-600 text-3xl">person</i>
+					</div>
+					<h3 class="text-4xl font-bold text-gray-700 mb-1">{{participants|length }}</h3>
+					<p class="text-gray-500 font-light">Participants</p>
+				</div>
 
-    {# 3. BLOC INFOS COMPLÉMENTAIRES #}
-    <div class="text-xs text-gray-500 flex justify-between border-t border-b border-gray-100 py-3 mb-6">
-        <p>👥 Nombre de participants : <span class="font-bold text-gray-800">{{ participants|length }}</span></p>
-        <p>💳 Nombre de paiements : <span class="font-bold text-gray-800">{{ nombre_paiements }}</span></p>
-    </div>
+				<div class="bg-white rounded-lg p-6 shadow-sm border border-gray-100 text-center flex flex-col items-center">
+					<div class="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center shadow-sm mb-3">
+						<i class="material-icons text-teal-600 text-3xl">redeem</i>
+					</div>
+					{% set somme =  0 %}
+					{% for paiement in paiements %}
+						{% set somme = somme + paiement.montant %}
+					{% endfor %}
+					<h3 class="text-4xl font-bold text-gray-700 mb-1">{{ somme }}</h3>
+					<p class="text-gray-500 font-light">euros récoltés</p>
+				</div>
+			</div>
+			{# #################################################################################################################################################### #}
 
-    {# 4. LISTE DES PARTICIPANTS #}
-    <div>
-        <h4 class="text-sm font-bold text-gray-900 mb-3 flex items-center gap-1.5">
-            <span>👋</span> Liste des participants ({{ participants|length }})
-        </h4>
-        <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
-            {# {% for paticipant in participants %}  originale #} 
-            {% for paiement in paiements %}  
-                <div class="p-3 bg-gray-50 rounded-xl flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 border border-gray-100">
-                    {# <span class="text-sm font-semibold text-gray-900">{{ paticipant.nom }} : </span> original #}
-                    {% if paiement.participant.etreAnonyme == false %}
-                    <span class="text-sm font-semibold text-gray-900">{{ paiement.participant.nom }} : {{ paiement.montant }} € </span>
-                    <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paiement.participant.email }}</span>
-                    {# <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">{{ paticipant.email }}</span>  originale #}
-                    {% else %}
-                          <span class="text-sm font-semibold text-gray-900"> ANONYME : {{ paiement.montant }} € </span>
-                    <span class="text-xs text-gray-400 font-mono bg-white px-2 py-0.5 rounded border border-gray-200 self-start sm:self-auto">ANONYME</span> 
-                    {% endif %}
-                </div>
-            {% else %}
-                <p class="text-sm text-gray-400 italic text-center py-4">Aucun participant pour le moment.</p>
-            {% endfor %}
-        </div>
-    </div>
+			{#              Ajuster le formulaire  formtype      #}
+			{# #################################################################################################################################################### #}
 
-</div>
+				<div class="bg-white rounded-lg shadow-md border border-gray-100 p-6 md:p-8 mb-12"> <form class="grid grid-cols-1 gap-6">
+					<div>
+						<label for="description" class="block text-sm font-medium text-gray-500 mb-1">Description</label>
+						<textarea id="description" readonly class="w-full min-h-[100px] border border-gray-200 rounded p-3 bg-gray-50 text-gray-600 focus:outline-none focus:ring-1 focus:ring-gray-300 resize-y">{{ campagne.contenu}}</textarea>
+					</div>
 
-{#################################################################################################################################}
-<div class="max-w-3xl mx-auto px-4 py-8">
-    
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 mb-8 border-b border-gray-200">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">{{ campagne.titre }}</h1>
-            <p class="mt-2 text-sm text-gray-500">Créé par <span class="font-medium text-gray-700">{{ campagne.nom }}</span></p>
-        </div>
-        <div class="mt-4 sm:mt-0">
-            <a href="{{ path('app_campagne_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
-                ← Retour à la liste
-            </a>
-        </div>
-    </div>
+					<div class="md:w-1/2">
+						<label for="goal" class="block text-sm font-medium text-gray-500 mb-1">objectif</label>
+						<input id="goal" type="number" readonly value="{{campagne.objectif}}" class="w-full border border-gray-200 rounded p-3 bg-gray-50 text-gray-600 focus:outline-none">
+					</div>
+				</form>
+			</div>
+			{# #################################################################################################################################################### #}
 
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200 mb-8">
-        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-            <h3 class="text-lg leading-6 font-medium text-gray-950">Informations de la cagnotte</h3>
-            <span class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-gray-100 text-gray-800 font-mono">
-                ID: #{{ campagne.id }}
-            </span>
-        </div>
-        
-        {############################       barre de progression     ################################}
-                {# <div class="h-2.5 bg-green-100 border-gray-500 border-1 rounded-2xl">
-                <div   style="width: {{ pourcentage  }};"   class="h-2.5  bg-green-400 rounded-2xl"></div>
-                 </div> #}
-        {############################################################################################}
-        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-            <dl class="sm:divide-y sm:divide-gray-200">
-                
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-teal-50/30">
-                    <dt class="text-sm font-semibold text-gray-600 self-center">Objectif à atteindre</dt>
-                    <dd class="mt-1 text-sm font-extrabold text-teal-600 sm:mt-0 sm:col-span-2 text-xl">
-                        {{ campagne.objectif ? campagne.objectif|number_format(0, ',', ' ') : '0' }} €
-                    </dd>
-                </div>
+			<div class="mb-12">
+				<div class="text-center mb-6">
+					<h4 class="text-3xl font-medium text-gray-700">Liste des participants</h4>
+				</div>
+				<div class="bg-white rounded-lg shadow overflow-hidden border border-gray-100">
+					<table class="w-full text-left border-collapse">
+						<thead>
+							<tr class="bg-gray-100 text-gray-600 uppercase text-xs tracking-wider border-b border-gray-200">
+								<th class="py-4 px-6 font-semibold">Email</th>
+								<th class="py-4 px-6 font-semibold">Participation</th>
+							</tr>
+						</thead>
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Description du projet</dt>
-                    <dd class="mt-1 text-sm text-gray-700 sm:mt-0 sm:col-span-2 whitespace-pre-line leading-relaxed">
-                        {{ campagne.contenu }}
-                    </dd>
-                </div>
+						<tbody class="divide-y divide-gray-100 text-gray-700">
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Date de lancement</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ campagne.getCreeA() ? campagne.getCreeA()|date('d/m/Y à H:i') : 'Non renseignée' }}
-                    </dd>
-                </div>
+							{% for paiement in paiements %}
+								<tr>
+									<td class="py-4 px-6">{{ paiement.participant.email}}
+									</td>
+									<td class="py-4 px-6">{{ paiement.montant}}
+										€
+									</td>
+								</tr>
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Dernière mise à jour</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ campagne.getMiseAJour() ? campagne.getMiseAJour()|date('d/m/Y à H:i') : 'Aucune modification' }}
-                    </dd>
-                </div>
-            </dl>
-        </div>
-    </div>
+							{%  endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-gray-200">
-        
-        <div class="flex items-center gap-3 order-2 sm:order-1">
-            <a href="{{ path('app_campagne_edit', {'id': campagne.id}) }}" class="inline-flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
-                Modifier
-            </a>
-            <div class="inline-flex justify-center">
-                {{ include('campagne/_delete_form.html.twig') }}
-            </div>
-        </div>
+		</div>
 
-        <div class="order-1 sm:order-2 w-full sm:w-auto">
-        {%  if pourcentagecalcul  < 100 %}
-            <a href="{{ path('app_paiement_new', {'id': campagne.id}) }}" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-md text-base font-bold text-white bg-pink-600 hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transform hover:-translate-y-0.5 transition-all duration-150">
-                💖 Participer à cette campagne
-            </a>
-         {% else %}
-              <a href ="{{ path('app_campagne_index')}} " > 💖 Un grand merci a vous tous cette campagne est terminer 💖  </a>
-        {% endif %}    
-        </div>
-        
-    </div>
-</div>
+		<div class="relative h-[300px] bg-fixed bg-center bg-no-repeat bg-cover flex items-center justify-center text-white" style="background-image: url('../assets/images/10.jpg');">
+			<div class="absolute inset-0 bg-black/40"></div>
+			<div class="relative z-10 text-center px-4 max-w-4xl">
+				<h4 class="text-2xl md:text-3xl font-light">Une campagne pensée pour vous<br>et pour toutes les occasions</h4>
+			</div>
+		</div>
 
-{{  include("_partials/_footer.html.twig") }}
 
-{% endblock %}
+		{{ include ('_partials/_footer.html.twig') }}
+
+
+		{# ############################################################################################################################################################# #}
+		{# ############################################################################################################################################################# #}
+		{#                                                                 JAVASCRYPT                                                                                    #}
+		{# ############################################################################################################################################################# #}
+		{# ############################################################################################################################################################# #}
+			<script>
+const trigger = document.getElementById('menu-trigger');
+const closeBtn = document.getElementById('menu-close');
+const sidenav = document.getElementById('nav-mobile');
+const overlay = document.getElementById('sidenav-overlay');
+
+trigger.addEventListener('click', () => {
+sidenav.classList.remove('-translate-x-full');
+overlay.classList.remove('hidden');
+});
+
+const closeMenu = () => {
+sidenav.classList.add('-translate-x-full');
+overlay.classList.add('hidden');
+};
+
+closeBtn.addEventListener('click', closeMenu);
+overlay.addEventListener('click', closeMenu);
+	</script>
+</div>{%  endblock %}

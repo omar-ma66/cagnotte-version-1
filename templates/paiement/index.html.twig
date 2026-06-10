@@ -1,78 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Paiement index{% endblock %}
+{% block title %}Paiement index
+{% endblock %}
 
 
 {% block body %}
-    <h1>Paiement index</h1>
+	{{ include ('_partials/_nav_barre.html.twig') }}
 
-<div class="max-w-7xl mx-auto px-4 py-8">
 
-    <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-900 tracking-tight">Historique des paiements</h1>
-        <p class="text-sm text-gray-500 mt-1">Consultez la liste des contributions financières reçues.</p>
-       <a href="{{ path('app_campagne_index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-teal-600 transition-colors duration-200">
-    <span>📊</span> Campagnes
-</a>
-    </div>
+	<div class="max-w-7xl mx-auto px-4 py-8">
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase tracking-wider text-gray-500">
-                        <th class="px-6 py-4">ID Paiement</th>
-                        <th class="px-6 py-4">Montant</th>
-                        <th class="px-6 py-4">Effectué le</th>
-                        <th class="px-6 py-4">Dernière mise à jour</th>
-                        <th class="px-6 py-4 text-right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100 text-sm text-gray-600">
-                {% for paiement in paiements %}
-                    <tr class="hover:bg-gray-50/70 transition-colors">
-                        
-                        <td class="px-6 py-4 font-mono text-xs text-gray-400">
-                            {{ paiement.id|length > 10 ? paiement.id|slice(0, 8) ~ '...' : paiement.id }}
-                        </td>
-                        
-                        <td class="px-6 py-4 font-bold text-teal-600 whitespace-nowrap">
-                            {{ paiement.montant }} €
-                        </td>
-                        
-                        <td class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
-                            {{ paiement.creeA ? paiement.creeA|date('d/m/Y H:i:s') : 'Non renseigné' }}
-                        </td>
-                        
-                        <td class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
-                            {{ paiement.miseAJour ? paiement.miseAJour|date('d/m/Y H:i:s') : 'Aucune' }}
-                        </td>
-                        
-                        <td class="px-6 py-4 text-right whitespace-nowrap text-sm font-medium space-x-2">
-                            <a href="{{ path('app_paiement_show', {'id': paiement.id}) }}" class="inline-flex items-center text-teal-600 hover:text-teal-700 hover:underline transition-colors">
-                                Détails
-                            </a>
-                            <span class="text-gray-300">|</span>
-                            <a href="{{ path('app_paiement_edit', {'id': paiement.id}) }}" class="inline-flex items-center text-pink-500 hover:text-pink-600 hover:underline transition-colors">
-                                Éditer
-                            </a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="5" class="px-6 py-12 text-center text-gray-400 bg-gray-50/30">
-                            <svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 5.25h19.5m-19.5 0h19.5M2.25 12h19.5m-19.5 0h19.5M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path>
-                            </svg>
-                            <span class="text-base font-medium">Aucun paiement enregistré</span>
-                            <p class="text-xs text-gray-400 mt-1">Les transactions apparaîtront ici dès qu'un participant aura contribué.</p>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    </div>
+		<div class="mb-8">
+			<h1 class="text-2xl font-bold text-gray-900 tracking-tight">Historique des paiements</h1>
+			<p class="text-sm text-gray-500 mt-1">Consultez la liste des contributions financières reçues.</p>
+			<a href="{{ path('app_campagne_index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 hover:text-teal-600 transition-colors duration-200">
+				<span>📊</span>
+				Campagnes
+			</a>
+		</div>
 
-</div>
+		<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+			<div class="overflow-x-auto">
+				<table class="w-full text-left border-collapse">
+					<thead>
+						<tr class="bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase tracking-wider text-gray-500">
+							<th class="px-6 py-4">ID Paiement</th>
+							<th class="px-6 py-4">Montant</th>
+							<th class="px-6 py-4">Effectué le</th>
+							<th class="px-6 py-4">Dernière mise à jour</th>
+							<th class="px-6 py-4 text-right">Actions</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-gray-100 text-sm text-gray-600">
+						{% for paiement in paiements %}
+							<tr class="hover:bg-gray-50/70 transition-colors">
+
+								<td class="px-6 py-4 font-mono text-xs text-gray-400">
+									{{ paiement.id|length > 10 ? paiement.id|slice(0, 8) ~ '...' : paiement.id }}
+								</td>
+
+								<td class="px-6 py-4 font-bold text-teal-600 whitespace-nowrap">
+									{{ paiement.montant }}
+									€
+								</td>
+
+								<td class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
+									{{ paiement.creeA ? paiement.creeA|date('d/m/Y H:i:s') : 'Non renseigné' }}
+								</td>
+
+								<td class="px-6 py-4 text-xs text-gray-500 whitespace-nowrap">
+									{{ paiement.miseAJour ? paiement.miseAJour|date('d/m/Y H:i:s') : 'Aucune' }}
+								</td>
+
+								<td class="px-6 py-4 text-right whitespace-nowrap text-sm font-medium space-x-2">
+									<a href="{{ path('app_paiement_show', {'id': paiement.id}) }}" class="inline-flex items-center text-teal-600 hover:text-teal-700 hover:underline transition-colors">
+										Détails
+									</a>
+									<span class="text-gray-300">|</span>
+
+								</td>
+							</tr>
+						{% else %}
+							<tr>
+								<td colspan="5" class="px-6 py-12 text-center text-gray-400 bg-gray-50/30">
+									<svg class="w-12 h-12 mx-auto text-gray-300 mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-19.5 5.25h19.5m-19.5 0h19.5M2.25 12h19.5m-19.5 0h19.5M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"></path>
+									</svg>
+									<span class="text-base font-medium">Aucun paiement enregistré</span>
+									<p class="text-xs text-gray-400 mt-1">Les transactions apparaîtront ici dès qu'un participant aura contribué.</p>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+	{{ include ('_partials/_footer.html.twig') }}
+
 {% endblock %}

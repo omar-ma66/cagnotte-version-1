@@ -1,111 +1,76 @@
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Paiement{% endblock %}
-
-{% block body %}
-    <h1>Paiement</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ paiement.id }}</td>
-            </tr>
-            <tr>
-                <th>Montant</th>
-                <td>{{ paiement.montant }}</td>
-            </tr>
-            <tr>
-                <th>Cree_a</th>
-                <td>{{ paiement.creeA ? paiement.creeA|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Mise_a_jour</th>
-                <td>{{ paiement.miseAJour ? paiement.miseAJour|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_paiement_index') }}">back to list</a>
-
-    <a href="{{ path('app_paiement_edit', {'id': paiement.id}) }}">edit</a>
-
-    {{ include('paiement/_delete_form.html.twig') }}
-{% endblock %}
-
- #}
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Détails du Paiement{% endblock %}
+{% block title %}Détails du Paiement
+{% endblock %}
 
 {% block body %}
-<div class="max-w-3xl mx-auto px-4 py-8">
-    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 mb-8 border-b border-gray-200">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Détails du paiement</h1>
-            <p class="mt-2 text-sm text-gray-500">Récapitulatif des informations relatives à la transaction.</p>
-        </div>
-        <div class="mt-4 sm:mt-0">
-            <a href="{{ path('app_paiement_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
-                ← Retour à la liste
-            </a>
-        </div>
-    </div>
+	<div class="max-w-3xl mx-auto px-4 py-8">
+		<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6 mb-8 border-b border-gray-200">
+			<div>
+				<h1 class="text-3xl font-bold text-gray-900 tracking-tight">Détails du paiement</h1>
+				<p class="mt-2 text-sm text-gray-500">Récapitulatif des informations relatives à la transaction.</p>
+			</div>
+			<div class="mt-4 sm:mt-0">
+				<a href="{{ path('app_paiement_index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+					← Retour à la liste
+				</a>
+			</div>
+		</div>
 
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200 mb-8">
-        <div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
-            <h3 class="text-lg leading-6 font-medium text-gray-950">Informations Générales</h3>
-        </div>
-        
-        <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
-            <dl class="sm:divide-y sm:divide-gray-200">
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Identifiant (ID)</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-mono bg-gray-100 px-2 py-0.5 rounded w-max">
-                        #{{ paiement.id }}
-                    </dd>
-                </div>
+		<div class="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200 mb-8">
+			<div class="px-4 py-5 sm:px-6 bg-gray-50 border-b border-gray-200">
+				<h3 class="text-lg leading-6 font-medium text-gray-950">Informations Générales</h3>
+			</div>
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-teal-50/30">
-                    <dt class="text-sm font-semibold text-gray-600">Montant de la participation</dt>
-                    <dd class="mt-1 text-sm font-bold text-teal-700 sm:mt-0 sm:col-span-2 text-lg">
-                        {{ paiement.montant ? paiement.montant|number_format(2, ',', ' ') : '0,00' }} €
-                    </dd>
-                </div>
+			<div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+				<dl class="sm:divide-y sm:divide-gray-200">
+					<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+						<dt class="text-sm font-semibold text-gray-600">Identifiant (ID)</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-mono bg-gray-100 px-2 py-0.5 rounded w-max">
+							#{{ paiement.id }}
+						</dd>
+					</div>
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Campagne concernée</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-medium">
-                        {{ paiement.campagne ? paiement.campagne.titre : 'Aucune campagne associée' }}
-                    </dd>
-                </div>
+					<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 bg-teal-50/30">
+						<dt class="text-sm font-semibold text-gray-600">Montant de la participation</dt>
+						<dd class="mt-1 text-sm font-bold text-teal-700 sm:mt-0 sm:col-span-2 text-lg">
+							{{ paiement.montant ? paiement.montant|number_format(2, ',', ' ') : '0,00' }}
+							€
+						</dd>
+					</div>
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Date de création</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ paiement.creeA ? paiement.creeA|date('d/m/Y à H:i') : 'Non renseignée' }}
-                    </dd>
-                </div>
+					<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+						<dt class="text-sm font-semibold text-gray-600">Campagne concernée</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2 font-medium">
+							{{ paiement.campagne ? paiement.campagne.titre : 'Aucune campagne associée' }}
+						</dd>
+					</div>
 
-                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dt class="text-sm font-semibold text-gray-600">Dernière mise à jour</dt>
-                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                        {{ paiement.miseAJour ? paiement.miseAJour|date('d/m/Y à H:i') : 'Aucune mise à jour' }}
-                    </dd>
-                </div>
-            </dl>
-        </div>
-    </div>
+					<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+						<dt class="text-sm font-semibold text-gray-600">Date de création</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+							{{ paiement.creeA ? paiement.creeA|date('d/m/Y à H:i') : 'Non renseignée' }}
+						</dd>
+					</div>
 
-    <div class="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-gray-200">
-        <a href="{{ path('app_paiement_edit', {'id': paiement.id}) }}" class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
-            Modifier les données
-        </a>
-        
-        <div class="inline-flex justify-center">
-            {{ include('paiement/_delete_form.html.twig') }}
-        </div>
-    </div>
-</div>
+					<div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+						<dt class="text-sm font-semibold text-gray-600">Dernière mise à jour</dt>
+						<dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+							{{ paiement.miseAJour ? paiement.miseAJour|date('d/m/Y à H:i') : 'Aucune mise à jour' }}
+						</dd>
+					</div>
+				</dl>
+			</div>
+		</div>
+
+		<div class="flex flex-col sm:flex-row sm:justify-end gap-3 pt-4 border-t border-gray-200">
+			<a href="{{ path('app_paiement_edit', {'id': paiement.id}) }}" class="inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors">
+				Modifier les données
+			</a>
+
+			<div class="inline-flex justify-center">
+				{{ include('paiement/_delete_form.html.twig') }}
+			</div>
+		</div>
+	</div>
 {% endblock %}
