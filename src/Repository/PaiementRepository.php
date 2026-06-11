@@ -41,7 +41,7 @@ class PaiementRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    public function getAllVersement(string $key):array
+    public function getAllVersement(string $key):?array
     {
                 return $this->createQueryBuilder('p')
                        ->andWhere('p.campagne = :key')
@@ -51,4 +51,15 @@ class PaiementRepository extends ServiceEntityRepository
 
     }
 
-    }
+                public function getTrio():?array
+                { 
+                return $this->createQueryBuilder('p')
+                    ->select('c.titre AS titre_campagne','c.contenu','c.id', 'SUM(p.montant) AS total_paiement')
+                    ->join('p.campagne', 'c') // Crée la jointure automatique via les relations d'entités
+                    ->groupBy('c.nom')
+                    ->orderBy('total_paiement', 'DESC')
+                    ->setMaxResults(3)
+                    ->getQuery()
+                    ->getResult();
+                    }
+}
